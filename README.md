@@ -49,7 +49,7 @@ terraform/
 ## 👨‍💻 Sobre mim
 
 Este repositório faz parte do meu portfólio pessoal.  
-Sou desenvolvedor focado em **DevOps**, **automação**, **infraestrutura moderna** e **experiências digitais baseadas em dados e serviços**.
+Sou desenvolvedor de sistemas distribuidos focado em **DevOps**, **automação**, **infraestrutura moderna** e **experiências digitais baseadas em serviços e dados**.
 
 🌐 Acesse: [https://observatudo.com.br](https://observatudo.com.br)
 
@@ -57,5 +57,5 @@ Sou desenvolvedor focado em **DevOps**, **automação**, **infraestrutura modern
 
 ## 📬 Contato
 
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)  
-- LinkedIn: [linkedin.com/in/seu-perfil](https://linkedin.com/in/seu-perfil)
+- GitHub: [@JJDSNT](https://github.com/JJDSNT)  
+- LinkedIn: [https://www.linkedin.com/in/jdiasneto/](https://www.linkedin.com/in/jdiasneto/)
