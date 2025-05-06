@@ -45,6 +45,7 @@ manage-dns/
 │   ├── foo.com.br/          
 
 └── .github/workflows/           # Automação com GitHub Actions (em construção)
+```
 
 ---
 
