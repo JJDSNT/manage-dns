@@ -43,6 +43,10 @@ terraform/
 
 - Nenhuma credencial sensível está armazenada neste repositório
 - O acesso à aplicação do Terraform (`terraform apply`) é feito com uma **Service Account do GCP via CI/CD** (em construção)
+- Este repositório ignora automaticamente arquivos sensíveis como `.tfstate`, `.tfvars`, chaves e configurações locais via `.gitignore`
+
+**⚠️ Nunca inclua segredos ou credenciais diretamente no código.**  
+Todo o acesso à infraestrutura é feito por autenticação segura, utilizando service accounts com permissões mínimas no GCP.
 
 ---
 
