@@ -29,13 +29,22 @@ Este repositório público gerencia, via **Terraform**, a infraestrutura de DNS 
 ## 📁 Estrutura do repositório
 
 ```bash
-terraform/
-├── zone.tf             # Criação da zona DNS
-├── root-and-www.tf     # Registros A e CNAME do domínio principal
-├── jdias.tf            # Registros para subdomínio jdias
-├── variables.tf        # (opcional) variáveis reutilizáveis
-└── backend.tf          # Configuração do state remoto (GCS)
-```
+manage-dns/
+├── infra-base/                  # Infraestrutura de suporte (bucket, SA, IAM)
+│   ├── bucket.tf
+│   ├── iam.tf
+│   ├── service-account.tf
+│   └── variables.tf
+
+├── zones/                       # Zonas DNS públicas gerenciadas via Terraform
+│   ├── observatudo.com.br/
+│   │   ├── backend.tf           # Configuração do state remoto
+│   │   ├── zone.tf              # Criação da zona DNS
+│   │   ├── root-and-www.tf      # Registros principais (A e CNAME)
+│   │   └── jdias.tf             # Subdomínio específico
+│   ├── foo.com.br/          
+
+└── .github/workflows/           # Automação com GitHub Actions (em construção)
 
 ---
 
@@ -47,6 +56,43 @@ terraform/
 
 **⚠️ Nunca inclua segredos ou credenciais diretamente no código.**  
 Todo o acesso à infraestrutura é feito por autenticação segura, utilizando service accounts com permissões mínimas no GCP.
+
+---
+
+## 🚀 Inicialização do projeto GCP
+
+Antes de aplicar qualquer configuração de DNS, é necessário ter um **projeto GCP com billing ativado** e permissões para:
+
+- Criar buckets no Cloud Storage
+- Criar Service Accounts
+- Gerenciar permissões IAM
+
+Você pode usar um projeto já existente ou criar manualmente pelo Console GCP.
+
+---
+
+## ⚙️ Aplicação da infraestrutura base (`infra-base/`)
+
+Este passo cria os recursos necessários para o Terraform funcionar corretamente:
+
+- Bucket GCS para armazenamento do state remoto
+- Service Account para uso no CI/CD
+- Permissões IAM mínimas
+
+### ✅ Como aplicar:
+
+```bash
+cd infra-base
+terraform init
+terraform plan
+terraform apply
+```
+Após isso, o bucket e a conta estarão prontos para uso com as zonas em `zones/`.
+
+> ⚠️ A variável `project_id` deve ser definida via `terraform.tfvars` ou com a flag `-var="project_id=seu-projeto"`, conforme sua estrutura local.
+
+💡 Após a aplicação, o bucket de state remoto estará criado e a Service Account configurada para uso seguro nos pipelines de CI/CD.
+
 
 ---
 
