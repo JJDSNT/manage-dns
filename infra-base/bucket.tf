@@ -1,11 +1,13 @@
 resource "google_storage_bucket" "terraform_state" {
-  name                        = "terraform-state-observatudo"
-  location                    = "US"
+  name     = "tfstate-observatudo"
+  location = "us-east1"
+
   force_destroy               = false
   uniform_bucket_level_access = true
 
+
   versioning {
-    enabled = true
+    enabled = false
   }
 
   lifecycle_rule {

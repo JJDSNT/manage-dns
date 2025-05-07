@@ -1,0 +1,3 @@
+project_id   = "observatudo-infra"
+bucket_name  = "tfstate-observatudo"
+region       = "us-east1"

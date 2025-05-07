@@ -9,8 +9,11 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = "us-central1"
+  region  = var.region
 }
 
-# Importa os recursos definidos nos arquivos separados
-# (Apenas por estarem no mesmo diretório, já serão incluídos automaticamente)
+# Os recursos estão organizados em arquivos separados:
+# - bucket.tf
+# - service_account.tf
+# - iam.tf (opcional)
+# Estes serão incluídos automaticamente durante a execução.
