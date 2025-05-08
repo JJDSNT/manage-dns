@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket  = "terraform-state-observatudo"
+    bucket = "tfstate-observatudo"
     prefix  = "zones/observatudo.com.br"
   }
 }
