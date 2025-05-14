@@ -1,21 +1,38 @@
 #!/bin/bash
 
-# Nome do projeto
-PROJECT_ID="observatudo-infra"
-EXPECTED_LABELS=("infra-base" "dns-zones-observatudo" "observatudo-www-app")
+# === 💡 Cores para terminal ===
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+RED="\033[1;31m"
+NC="\033[0m" # No Color
 
-# Diretório de saída
+# === 📌 Parâmetros ===
+if [[ "$1" == "--summary" ]]; then
+  SUMMARY_MODE=true
+  shift
+else
+  SUMMARY_MODE=false
+fi
+
+PROJECT_ID="${PROJECT_ID:-${1:-observatudo-infra}}"
+
+EXPECTED_LABELS=(${EXPECTED_LABELS[@]:-infra-base dns-zones-observatudo observatudo-www-app})
+
+# === 📂 Diretório de saída ===
 OUTPUT_DIR="output"
 mkdir -p "$OUTPUT_DIR"
 
-# Arquivos
+# === 📄 Arquivos de saída ===
 ALL_ASSETS_FILE="$OUTPUT_DIR/all-assets.json"
 ORPHANS_FILE="$OUTPUT_DIR/possible-orphans.json"
+CSV_FILE="$OUTPUT_DIR/possible-orphans.csv"
 
-echo "📦 Coletando todos os recursos do projeto: $PROJECT_ID..."
+# === 🛰️ Coleta de dados ===
+echo -e "${YELLOW}📦 Coletando todos os recursos do projeto: $PROJECT_ID...${NC}"
 gcloud asset search-all-resources --project="$PROJECT_ID" --format=json > "$ALL_ASSETS_FILE"
 
-echo "🔍 Filtrando recursos órfãos (sem label 'provisioned_by' ou valor inesperado)..."
+# === 🧠 Filtro de órfãos ===
+echo -e "${YELLOW}🔍 Filtrando recursos órfãos (sem label 'provisioned_by' ou valor inesperado)...${NC}"
 
 jq --argjson expected_labels "$(printf '%s\n' "${EXPECTED_LABELS[@]}" | jq -R . | jq -s .)" '
   map(select(
@@ -24,5 +41,20 @@ jq --argjson expected_labels "$(printf '%s\n' "${EXPECTED_LABELS[@]}" | jq -R . 
   ))
 ' "$ALL_ASSETS_FILE" > "$ORPHANS_FILE"
 
-echo "✅ Resultado salvo em: $ORPHANS_FILE"
-echo "⚠️  Recursos órfãos encontrados: $(jq length "$ORPHANS_FILE")"
+# === 📊 Resumo ===
+COUNT=$(jq length "$ORPHANS_FILE")
+echo -e "${GREEN}✅ Resultado salvo em: $ORPHANS_FILE${NC}"
+echo -e "${YELLOW}⚠️  Recursos órfãos encontrados: $COUNT${NC}"
+
+echo -e "${YELLOW}📊 Tipos de recursos órfãos:${NC}"
+jq '.[].assetType' "$ORPHANS_FILE" | sort | uniq -c
+
+# === 📄 Geração de CSV ===
+jq -r '.[] | [.assetType, .name] | @csv' "$ORPHANS_FILE" > "$CSV_FILE"
+echo -e "${GREEN}📄 CSV gerado em: $CSV_FILE${NC}"
+
+# === ✅ Modo resumo para CI ou pipelines ===
+if [[ "$SUMMARY_MODE" == true ]]; then
+  exit 0
+fi
+
