@@ -4,9 +4,13 @@
 PROJECT_ID="observatudo-infra"
 EXPECTED_LABELS=("infra-base" "dns-zones-observatudo" "observatudo-www-app")
 
-# Arquivo temporário para armazenar todos os recursos
-ALL_ASSETS_FILE="all-assets.json"
-ORPHANS_FILE="possible-orphans.json"
+# Diretório de saída
+OUTPUT_DIR="output"
+mkdir -p "$OUTPUT_DIR"
+
+# Arquivos
+ALL_ASSETS_FILE="$OUTPUT_DIR/all-assets.json"
+ORPHANS_FILE="$OUTPUT_DIR/possible-orphans.json"
 
 echo "📦 Coletando todos os recursos do projeto: $PROJECT_ID..."
 gcloud asset search-all-resources --project="$PROJECT_ID" --format=json > "$ALL_ASSETS_FILE"
