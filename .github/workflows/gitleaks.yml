@@ -18,5 +18,9 @@ jobs:
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         with:
-          config-path: .gitleaks.toml
-          fail: true
+          args: >
+            detect
+            --redact
+            --report-format sarif
+            --report-path results.sarif
+            --exit-code 1
