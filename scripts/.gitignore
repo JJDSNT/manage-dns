@@ -1,4 +1,1 @@
-# IGNORAR apenas arquivos temporários
-scripts/*.json
-scripts/*.tmp
-scripts/*~
+output/
