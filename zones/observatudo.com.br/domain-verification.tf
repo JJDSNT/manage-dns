@@ -1,3 +1,4 @@
+# provisioned_by = dns-zones-observatudo
 resource "google_dns_record_set" "domain_verification" {
   name         = "observatudo.com.br."
   type         = "TXT"
