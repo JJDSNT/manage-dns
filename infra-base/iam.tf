@@ -1,3 +1,5 @@
+# Permissão DNS para a service account do Terraform CI
+# provisioned_by = infra-base
 resource "google_project_iam_member" "terraform_ci_dns" {
   project = var.project_id
   role    = "roles/dns.admin"

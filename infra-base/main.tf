@@ -1,3 +1,7 @@
+# Módulo: infra-base
+# Todos os recursos definidos neste diretório são rotulados com provisioned_by = "infra-base",
+# quando o recurso suportar labels. O state é armazenado com prefixo 'infra-base' no GCS.
+
 terraform {
   required_providers {
     google = {
@@ -13,7 +17,8 @@ provider "google" {
 }
 
 # Os recursos estão organizados em arquivos separados:
-# - bucket.tf
+# - enable_apis.tf
+# - iam.tf
 # - service_account.tf
-# - iam.tf (opcional)
+# - bucket.tf
 # Estes serão incluídos automaticamente durante a execução.

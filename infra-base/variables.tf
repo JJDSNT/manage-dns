@@ -13,3 +13,8 @@ variable "region" {
   type        = string
   default     = "us-east1"
 }
+
+variable "state_label" {
+  type    = string
+  default = "infra-base"
+}
