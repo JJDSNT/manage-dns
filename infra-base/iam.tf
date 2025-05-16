@@ -42,3 +42,10 @@ resource "google_project_iam_member" "github_actions_registry_reader" {
   role    = "roles/storage.objectViewer" # ou roles/artifactregistry.reader se estiver usando Artifact Registry
   member  = "serviceAccount:${google_service_account.github_actions_deploy.email}"
 }
+
+resource "google_project_iam_member" "github_actions_registry_writer" {
+  project = var.project_id
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.github_actions_deploy.email}"
+}
+
